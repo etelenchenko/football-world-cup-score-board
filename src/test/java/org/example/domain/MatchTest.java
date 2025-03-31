@@ -42,4 +42,25 @@ class MatchTest {
         assertNotNull(match.getStartTime());
     }
 
+    @Test
+    void updateScoreShouldUpdateScores() {
+        Match match = new Match("Brazil", "Germany");
+        match.updateScore(3, 2);
+
+        assertEquals(3, match.getHomeScore());
+        assertEquals(2, match.getAwayScore());
+    }
+
+    @Test
+    void updateScoreShouldThrowExceptionForNegativeHomeScore() {
+        Match match = new Match("Brazil", "Germany");
+        assertThrows(IllegalArgumentException.class, () -> match.updateScore(-1, 2));
+    }
+
+    @Test
+    void updateScoreShouldThrowExceptionForNegativeAwayScore() {
+        Match match = new Match("Brazil", "Germany");
+        assertThrows(IllegalArgumentException.class, () -> match.updateScore(1, -2));
+    }
+
 }

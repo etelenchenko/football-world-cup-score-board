@@ -23,6 +23,14 @@ public class Match {
         this.startTime = LocalDateTime.now();
     }
 
+    public void updateScore(int homeScore, int awayScore) {
+        if (homeScore < 0 || awayScore < 0) {
+            throw new IllegalArgumentException("Scores cannot be negative");
+        }
+        this.homeScore = homeScore;
+        this.awayScore = awayScore;
+    }
+
     private void validateTeamNames(String homeTeam, String awayTeam) {
         if (homeTeam == null || homeTeam.trim().isEmpty()) {
             throw new IllegalArgumentException("Home team name cannot be null or empty");
