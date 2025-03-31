@@ -25,4 +25,22 @@ public class ScoreBoard {
         }
         return match;
     }
+
+    /**
+     * Finishes a game and removes it from the scoreboard
+     *
+     * @param homeTeam Home team name
+     * @param awayTeam Away team name
+     * @return true if the match was removed, false if no match was found
+     */
+    public boolean finishGame(String homeTeam, String awayTeam) {
+        return matches.remove(new Match(homeTeam, awayTeam));
+    }
+
+    /**
+     * Get the current number of active matches
+     */
+    public int getActiveMatchesCount() {
+        return matches.size();
+    }
 }
