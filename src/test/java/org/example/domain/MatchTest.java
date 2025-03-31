@@ -31,4 +31,15 @@ class MatchTest {
         assertThrows(IllegalArgumentException.class, () -> new Match("Brazil", "Brazil"));
     }
 
+    @Test
+    void constructorShouldCreateMatchWithZeroScore() {
+        Match match = new Match("Brazil", "Germany");
+
+        assertEquals("Brazil", match.getHomeTeam());
+        assertEquals("Germany", match.getAwayTeam());
+        assertEquals(0, match.getHomeScore());
+        assertEquals(0, match.getAwayScore());
+        assertNotNull(match.getStartTime());
+    }
+
 }
