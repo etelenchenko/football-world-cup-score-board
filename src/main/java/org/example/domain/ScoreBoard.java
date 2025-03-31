@@ -20,6 +20,15 @@ public class ScoreBoard {
      */
     public Match startGame(String homeTeam, String awayTeam) {
         Match match = new Match(homeTeam, awayTeam);
+
+        boolean teamAlreadyPlaying = matches.stream()
+                .anyMatch(m -> m != match &&
+                        (isTeamPlaying(m, homeTeam) || isTeamPlaying(m, awayTeam)));
+
+        if (teamAlreadyPlaying) {
+            matches.remove(match);
+            throw new IllegalArgumentException("One or both teams are already playing in another match");
+        }
         if (!matches.add(match)) {
             throw new IllegalArgumentException("A match between these teams already exists");
         }
@@ -42,5 +51,11 @@ public class ScoreBoard {
      */
     public int getActiveMatchesCount() {
         return matches.size();
+    }
+
+    private boolean isTeamPlaying(Match match, String team) {
+        String normalizedTeam = team.trim().toLowerCase();
+        return match.getHomeTeam().trim().toLowerCase().equals(normalizedTeam) ||
+                match.getAwayTeam().trim().toLowerCase().equals(normalizedTeam);
     }
 }

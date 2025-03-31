@@ -33,6 +33,22 @@ class ScoreBoardTest {
     }
 
     @Test
+    void startGameShouldThrowExceptionIfHomeTeamIsAlreadyPlaying() {
+        scoreBoard.startGame("Brazil", "Germany");
+
+        assertThrows(IllegalArgumentException.class, () -> scoreBoard.startGame("Brazil", "Italy"));
+        assertEquals(1, scoreBoard.getActiveMatchesCount());
+    }
+
+    @Test
+    void startGameShouldThrowExceptionIfAwayTeamIsAlreadyPlaying() {
+        scoreBoard.startGame("Brazil", "Germany");
+
+        assertThrows(IllegalArgumentException.class, () -> scoreBoard.startGame("Italy", "Germany"));
+        assertEquals(1, scoreBoard.getActiveMatchesCount());
+    }
+
+    @Test
     void finishGameShouldRemoveMatchFromScoreBoard() {
         scoreBoard.startGame("Brazil", "Germany");
 
