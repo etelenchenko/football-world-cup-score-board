@@ -62,4 +62,20 @@ class MatchTest {
         assertThrows(IllegalArgumentException.class, () -> match.updateScore(1, -2));
     }
 
+    @Test
+    void getTotalScoreShouldReturnSumOfScores() {
+        Match match = new Match("Brazil", "Germany");
+        match.updateScore(3, 2);
+
+        assertEquals(5, match.getTotalScore());
+    }
+
+    @Test
+    void toStringShouldReturnFormattedString() {
+        Match match = new Match("Brazil", "Germany");
+        match.updateScore(3, 2);
+
+        assertEquals("Brazil 3 - Germany 2", match.toString());
+    }
+
 }

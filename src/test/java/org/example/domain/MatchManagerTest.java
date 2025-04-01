@@ -90,6 +90,13 @@ class MatchManagerTest {
     }
 
     @Test
+    void updateScoreShouldThrowExceptionForNonExistentMatch() {
+        Match match = new Match("Brazil", "Germany");
+        assertThrows(IllegalArgumentException.class,
+                () -> matchManager.updateScore(match, 3, 2));
+    }
+
+    @Test
     void getSummaryShouldReturnMatchesOrderedByTotalScore() throws NoSuchFieldException, IllegalAccessException {
         setupExampleMatches();
 
@@ -116,6 +123,23 @@ class MatchManagerTest {
         assertEquals("Germany", summary.get(4).getHomeTeam());
         assertEquals("France", summary.get(4).getAwayTeam());
         assertEquals(4, summary.get(4).getTotalScore());
+    }
+
+    @Test
+    void matchesShouldBeOrderedByMostRecentlyAddedForSameTotalScore() {
+        Match match = matchManager.startGame("Germany", "France");
+        matchManager.updateScore(match, 2, 2);
+
+        match = matchManager.startGame("Argentina", "Australia");
+        matchManager.updateScore(match, 3, 1);
+
+        List<Match> summary = matchManager.getSummary();
+
+        assertEquals(2, summary.size());
+        assertEquals("Argentina", summary.get(0).getHomeTeam());
+        assertEquals("Australia", summary.get(0).getAwayTeam());
+        assertEquals("Germany", summary.get(1).getHomeTeam());
+        assertEquals("France", summary.get(1).getAwayTeam());
     }
 
     private void setupExampleMatches() throws NoSuchFieldException, IllegalAccessException {

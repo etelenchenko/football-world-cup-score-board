@@ -56,4 +56,9 @@ public class Match {
     public int hashCode() {
         return Objects.hash(homeTeam.trim().toLowerCase(), awayTeam.trim().toLowerCase());
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s %d - %s %d", homeTeam, homeScore, awayTeam, awayScore);
+    }
 }
