@@ -2,13 +2,15 @@ package org.example.domain;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ScoreBoard {
-    private final List<Match> matches;
+    private final Set<Match> matches;
 
     public ScoreBoard() {
-        this.matches = new ArrayList<>();
+        this.matches = new LinkedHashSet<>();
     }
 
     /**
@@ -18,10 +20,11 @@ public class ScoreBoard {
      * @return List of matches ordered according to the requirements
      */
     public List<Match> getSummary() {
-        return matches.stream()
+        List<Match> orderedMatches = new ArrayList<>(matches);
+        return orderedMatches.stream()
                 .sorted(Comparator
                         .comparing(Match::getTotalScore, Comparator.reverseOrder())
-                        .thenComparing(matches::indexOf, Comparator.reverseOrder())
+                        .thenComparing(orderedMatches::indexOf, Comparator.reverseOrder())
                 )
                 .toList();
     }

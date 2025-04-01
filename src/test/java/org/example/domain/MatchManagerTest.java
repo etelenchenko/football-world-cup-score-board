@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MatchManagerTest {
 
@@ -53,9 +56,9 @@ class MatchManagerTest {
 
     @Test
     void finishGameShouldRemoveMatchFromScoreBoard() {
-        matchManager.startGame("Brazil", "Germany");
+        Match brazilGermany = matchManager.startGame("Brazil", "Germany");
 
-        boolean result = matchManager.finishGame("Brazil", "Germany");
+        boolean result = matchManager.finishGame(brazilGermany);
 
         assertTrue(result);
         assertEquals(0, matchManager.getActiveMatchesCount());
@@ -63,15 +66,16 @@ class MatchManagerTest {
 
     @Test
     void finishGameShouldReturnFalseForNonExistentMatch() {
-        boolean result = matchManager.finishGame("Brazil", "Germany");
+        Match brazilGermany = new Match("Brazil", "Germany");
+        boolean result = matchManager.finishGame(brazilGermany);
 
         assertFalse(result);
     }
 
     @Test
     void teamsCanPlayAfterTheirMatchIsFinished() {
-        matchManager.startGame("Brazil", "Germany");
-        matchManager.finishGame("Brazil", "Germany");
+        Match brazilGermany = matchManager.startGame("Brazil", "Germany");
+        matchManager.finishGame(brazilGermany);
 
         Match match = matchManager.startGame("Brazil", "Italy");
         assertEquals("Brazil", match.getHomeTeam());
@@ -97,7 +101,7 @@ class MatchManagerTest {
     }
 
     @Test
-    void getSummaryShouldReturnMatchesOrderedByTotalScore() throws NoSuchFieldException, IllegalAccessException {
+    void getSummaryShouldReturnMatchesOrderedByTotalScore() {
         setupExampleMatches();
 
         List<Match> summary = matchManager.getSummary();
@@ -142,7 +146,7 @@ class MatchManagerTest {
         assertEquals("France", summary.get(1).getAwayTeam());
     }
 
-    private void setupExampleMatches() throws NoSuchFieldException, IllegalAccessException {
+    private void setupExampleMatches() {
         Match mexicoCanada = matchManager.startGame("Mexico", "Canada");
         Match spainBrazil = matchManager.startGame("Spain", "Brazil");
         Match germanyFrance = matchManager.startGame("Germany", "France");

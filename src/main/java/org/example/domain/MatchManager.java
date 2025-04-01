@@ -40,12 +40,11 @@ public class MatchManager {
     /**
      * Finishes a game and removes it from the scoreboard
      *
-     * @param homeTeam Home team name
-     * @param awayTeam Away team name
+     * @param match Match to finish
      * @return true if the match was removed, false if no match was found
      */
-    public boolean finishGame(String homeTeam, String awayTeam) {
-        return scoreBoard.removeMatch(new Match(homeTeam, awayTeam));
+    public boolean finishGame(Match match) {
+        return scoreBoard.removeMatch(match);
     }
 
     /**
