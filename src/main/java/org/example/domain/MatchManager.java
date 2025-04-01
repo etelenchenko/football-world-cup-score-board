@@ -48,6 +48,27 @@ public class MatchManager {
         return scoreBoard.getMatches().remove(new Match(homeTeam, awayTeam));
     }
 
+    /**
+     * Updates the score of an existing match
+     *
+     * @param homeTeam Home team name
+     * @param awayTeam Away team name
+     * @param homeScore New home team score
+     * @param awayScore New away team score
+     * @throws IllegalArgumentException if the match does not exist
+     */
+    public void updateScore(String homeTeam, String awayTeam, int homeScore, int awayScore) {
+        Match matchToFind = new Match(homeTeam, awayTeam);
+        Match matchToUpdate = scoreBoard.getMatches().stream()
+                .filter(m -> m.equals(matchToFind))
+                .findFirst()
+                .orElse(null);
+        if (matchToUpdate == null) {
+            throw new IllegalArgumentException("Match not found");
+        }
+        matchToUpdate.updateScore(homeScore, awayScore);
+    }
+
     private boolean isTeamPlaying(Match match, String team) {
         String normalizedTeam = team.trim().toLowerCase();
         return match.getHomeTeam().trim().toLowerCase().equals(normalizedTeam) ||

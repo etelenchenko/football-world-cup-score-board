@@ -77,4 +77,14 @@ class MatchManagerTest {
         assertEquals(1, matchManager.getActiveMatchesCount());
     }
 
+    @Test
+    void updateScoreShouldUpdateMatchScore() {
+        Match match = matchManager.startGame("Brazil", "Germany");
+
+        matchManager.updateScore("Brazil", "Germany", 3, 2);
+
+        assertEquals(3, match.getHomeScore());
+        assertEquals(2, match.getAwayScore());
+    }
+
 }
