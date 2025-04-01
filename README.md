@@ -50,9 +50,11 @@ The implementation follows Test-Driven Development practices:
 - There is no persistence - all data is stored in memory
 - A team cannot play in multiple matches simultaneously (real-world constraint)
 
+## How to Use
+```agsl
 // Create a new scoreboard
 ScoreBoard scoreBoard = new ScoreBoard();
-MatchManager matchManager = new MatchManager(scoreBoard)
+MatchManager matchManager = new MatchManager(scoreBoard);
 
 // Start games
 Match mexicoCanada = matchManager.startGame("Mexico", "Canada");
@@ -73,3 +75,4 @@ matchManager.finishGame(match);
 
 // Now the team can play in a new match
 matchManager.startGame("Mexico", "Argentina");
+```
