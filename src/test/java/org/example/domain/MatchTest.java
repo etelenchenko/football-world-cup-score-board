@@ -39,7 +39,6 @@ class MatchTest {
         assertEquals("Germany", match.getAwayTeam());
         assertEquals(0, match.getHomeScore());
         assertEquals(0, match.getAwayScore());
-        assertNotNull(match.getStartTime());
     }
 
     @Test

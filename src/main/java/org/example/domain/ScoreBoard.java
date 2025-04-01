@@ -1,13 +1,29 @@
 package org.example.domain;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class ScoreBoard {
-    private final Set<Match> matches;
+    private final List<Match> matches;
 
     public ScoreBoard() {
-        this.matches = new HashSet<>();
+        this.matches = new ArrayList<>();
+    }
+
+    /**
+     * Gets a summary of games ordered by total score (descending)
+     * Games with the same total score are ordered by most recently added
+     *
+     * @return List of matches ordered according to the requirements
+     */
+    public List<Match> getSummary() {
+        return matches.stream()
+                .sorted(Comparator
+                        .comparing(Match::getTotalScore, Comparator.reverseOrder())
+                        .thenComparing(matches::indexOf, Comparator.reverseOrder())
+                )
+                .toList();
     }
 
     public void addMatch(Match match) {

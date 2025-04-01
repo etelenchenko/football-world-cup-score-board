@@ -2,7 +2,6 @@ package org.example.domain;
 
 import lombok.Getter;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -11,7 +10,6 @@ public class Match {
     private final String awayTeam;
     private int homeScore;
     private int awayScore;
-    private final LocalDateTime startTime;
 
     public Match(String homeTeam, String awayTeam) {
         validateTeamNames(homeTeam, awayTeam);
@@ -19,7 +17,6 @@ public class Match {
         this.awayTeam = awayTeam;
         this.homeScore = 0;
         this.awayScore = 0;
-        this.startTime = LocalDateTime.now();
     }
 
     public void updateScore(int homeScore, int awayScore) {
@@ -28,6 +25,10 @@ public class Match {
         }
         this.homeScore = homeScore;
         this.awayScore = awayScore;
+    }
+
+    public int getTotalScore() {
+        return homeScore + awayScore;
     }
 
     private void validateTeamNames(String homeTeam, String awayTeam) {

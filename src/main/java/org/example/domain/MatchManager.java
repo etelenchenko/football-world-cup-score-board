@@ -1,5 +1,7 @@
 package org.example.domain;
 
+import java.util.List;
+
 public class MatchManager {
     private final ScoreBoard scoreBoard;
 
@@ -49,25 +51,27 @@ public class MatchManager {
     /**
      * Updates the score of an existing match
      *
-     * @param homeTeam Home team name
-     * @param awayTeam Away team name
+     * @param match Match to update score
      * @param homeScore New home team score
      * @param awayScore New away team score
      * @throws IllegalArgumentException if the match does not exist
      */
-    public void updateScore(String homeTeam, String awayTeam, int homeScore, int awayScore) {
-        Match matchToUpdate = findMatch(homeTeam, awayTeam);
+    public void updateScore(Match match, int homeScore, int awayScore) {
+        Match matchToUpdate = findMatch(match);
         if (matchToUpdate == null) {
             throw new IllegalArgumentException("Match not found");
         }
         matchToUpdate.updateScore(homeScore, awayScore);
     }
 
+    public List<Match> getSummary() {
+        return scoreBoard.getSummary();
+    }
+
     /**
      * Helper method to find a match by team names
      */
-    private Match findMatch(String homeTeam, String awayTeam) {
-        Match matchToFind = new Match(homeTeam, awayTeam);
+    private Match findMatch(Match matchToFind) {
         return scoreBoard.findMatch(matchToFind);
     }
 }
