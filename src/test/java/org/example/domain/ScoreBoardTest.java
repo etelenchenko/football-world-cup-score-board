@@ -58,4 +58,22 @@ class ScoreBoardTest {
         assertEquals(0, scoreBoard.getActiveMatchesCount());
     }
 
+    @Test
+    void finishGameShouldReturnFalseForNonExistentMatch() {
+        boolean result = scoreBoard.finishGame("Brazil", "Germany");
+
+        assertFalse(result);
+    }
+
+    @Test
+    void teamsCanPlayAfterTheirMatchIsFinished() {
+        scoreBoard.startGame("Brazil", "Germany");
+        scoreBoard.finishGame("Brazil", "Germany");
+
+        Match match = scoreBoard.startGame("Brazil", "Italy");
+        assertEquals("Brazil", match.getHomeTeam());
+        assertEquals("Italy", match.getAwayTeam());
+        assertEquals(1, scoreBoard.getActiveMatchesCount());
+    }
+
 }
