@@ -58,15 +58,22 @@ public class MatchManager {
      * @throws IllegalArgumentException if the match does not exist
      */
     public void updateScore(String homeTeam, String awayTeam, int homeScore, int awayScore) {
-        Match matchToFind = new Match(homeTeam, awayTeam);
-        Match matchToUpdate = scoreBoard.getMatches().stream()
-                .filter(m -> m.equals(matchToFind))
-                .findFirst()
-                .orElse(null);
+        Match matchToUpdate = findMatch(homeTeam, awayTeam);
         if (matchToUpdate == null) {
             throw new IllegalArgumentException("Match not found");
         }
         matchToUpdate.updateScore(homeScore, awayScore);
+    }
+
+    /**
+     * Helper method to find a match by team names
+     */
+    private Match findMatch(String homeTeam, String awayTeam) {
+        Match matchToFind = new Match(homeTeam, awayTeam);
+        return scoreBoard.getMatches().stream()
+                .filter(match -> match.equals(matchToFind))
+                .findFirst()
+                .orElse(null);
     }
 
     private boolean isTeamPlaying(Match match, String team) {
