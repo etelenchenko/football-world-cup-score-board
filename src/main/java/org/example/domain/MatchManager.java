@@ -18,14 +18,12 @@ public class MatchManager {
     public Match startGame(String homeTeam, String awayTeam) {
         Match match = new Match(homeTeam, awayTeam);
 
-        boolean teamAlreadyPlaying = scoreBoard.getMatches().stream()
-                .anyMatch(m -> m != match &&
-                        (isTeamPlaying(m, homeTeam) || isTeamPlaying(m, awayTeam)));
+        boolean teamAlreadyPlaying = scoreBoard.isTeamAlreadyPlaying(match);
 
         if (teamAlreadyPlaying) {
             throw new IllegalArgumentException("One or both teams are already playing in another match");
         }
-        scoreBoard.getMatches().add(match);
+        scoreBoard.addMatch(match);
 
         return match;
     }
@@ -34,7 +32,7 @@ public class MatchManager {
      * Get the current number of active matches
      */
     public int getActiveMatchesCount() {
-        return scoreBoard.getMatches().size();
+        return scoreBoard.getActiveMatchesCount();
     }
 
     /**
@@ -45,7 +43,7 @@ public class MatchManager {
      * @return true if the match was removed, false if no match was found
      */
     public boolean finishGame(String homeTeam, String awayTeam) {
-        return scoreBoard.getMatches().remove(new Match(homeTeam, awayTeam));
+        return scoreBoard.removeMatch(new Match(homeTeam, awayTeam));
     }
 
     /**
@@ -70,15 +68,6 @@ public class MatchManager {
      */
     private Match findMatch(String homeTeam, String awayTeam) {
         Match matchToFind = new Match(homeTeam, awayTeam);
-        return scoreBoard.getMatches().stream()
-                .filter(match -> match.equals(matchToFind))
-                .findFirst()
-                .orElse(null);
-    }
-
-    private boolean isTeamPlaying(Match match, String team) {
-        String normalizedTeam = team.trim().toLowerCase();
-        return match.getHomeTeam().trim().toLowerCase().equals(normalizedTeam) ||
-                match.getAwayTeam().trim().toLowerCase().equals(normalizedTeam);
+        return scoreBoard.findMatch(matchToFind);
     }
 }
